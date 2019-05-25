@@ -1,4 +1,4 @@
-import BaseController from "./base.controller";
+import BaseController from "../core/base.controller";
 import getReadlineInterface from "../utils/readline-interface";
 import PlayerModel from "../models/player.model";
 import {

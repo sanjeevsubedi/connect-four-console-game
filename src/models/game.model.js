@@ -1,21 +1,18 @@
-import BaseEvent from "../events/base.event";
 import { RESULT, COLOR, COLUMN } from "../constants/app.constant";
+import BaseModel from "../core/base.model";
 
-class GameModel {
+class GameModel extends BaseModel {
   constructor() {
+    super();
     this.rows = 6;
     this.cols = 7;
     this.emptyDisc = "o";
     this.board = this.createBoard(this.rows, this.cols, this.emptyDisc);
-
-    /** Events */
-    this.recreateBoardEvent = new BaseEvent(this);
-    this.gameOverEvent = new BaseEvent(this);
   }
 
   setBoard(board) {
     this.board = board;
-    this.recreateBoardEvent.notify();
+    this.notifyObservers();
   }
 
   getBoard() {
@@ -181,11 +178,11 @@ class GameModel {
 
     if (this.isFull()) {
       result = RESULT.DRAW;
-      this.gameOverEvent.notify(result);
+      this.notifyObservers(result);
     } else if (this.connectFour(board, row, col, player.id)) {
       const color = player.color;
       result = color === COLOR.BLUE ? RESULT.BLUE_WIN : RESULT.RED_WIN;
-      this.gameOverEvent.notify(result);
+      this.notifyObservers(result);
     }
     return result;
   }

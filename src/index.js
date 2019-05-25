@@ -12,11 +12,16 @@ import MenuController from "./controllers/menu.controller";
   const appState = new AppState();
 
   // prepare dependencies
+  // lib such as https://github.com/gedbac/di4js could be used to resolve dependencies
   const menuView = new MenuView();
   const menu = new MenuController(menuView, null, appState);
 
   const gameModel = new GameModel();
   const gameView = new GameView(gameModel);
+
+  // add view as an observer to get notified about changes in the model
+  gameModel.addObserver(gameView);
+
   const aIModel = new AIModel(gameModel);
   const game = new GameController(gameView, gameModel, appState, aIModel);
 

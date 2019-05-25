@@ -1,18 +1,12 @@
-import BaseEvent from "../events/base.event";
 import print from "../utils/print";
 import { STRINGS, PLAYER_ID, RESULT, COLOR } from "../constants/app.constant";
 import chalk from "chalk";
+import BaseView from "../core/base.view";
 
-class GameView {
+class GameView extends BaseView {
   constructor(model) {
+    super();
     this.model = model;
-
-    /**Events */
-    this.dropDiscEvent = new BaseEvent(this);
-
-    /**listeners */
-    this.model.recreateBoardEvent.attach(this.render.bind(this));
-    this.model.gameOverEvent.attach(this.displayGameOver.bind(this));
   }
 
   render() {
@@ -20,6 +14,14 @@ class GameView {
     const rows = this.model.getRows();
     const cols = this.model.getCols();
     this.displayBoard(board, rows, cols);
+  }
+
+  update(data) {
+    if (data) {
+      this.displayGameOver(data);
+    } else {
+      this.render();
+    }
   }
 
   displayBoard(board, rows, cols) {
@@ -42,7 +44,7 @@ class GameView {
     print(grid, true);
   }
 
-  displayGameOver(sender, result) {
+  displayGameOver(result) {
     let output = "";
     if (result === RESULT.RED_WIN || result === RESULT.BLUE_WIN) {
       const color = result === RESULT.RED_WIN ? COLOR.RED : COLOR.BLUE;

@@ -6,24 +6,16 @@ import {
   PLAYER_TYPE,
   RESULT
 } from "../src/constants/app.constant";
-import BaseEvent from "../src/events/base.event";
 import PlayerModel from "../src/models/player.model";
-jest.mock("../src/events/base.event");
 
 describe("Game Model", () => {
   let model;
   beforeEach(() => {
     model = new GameModel();
-    BaseEvent.mockClear();
   });
 
   test("should exist", () => {
     expect(model instanceof GameModel).not.toBeNull();
-  });
-
-  it("should create recreate board and game over events", () => {
-    model = new GameModel();
-    expect(BaseEvent).toHaveBeenCalledTimes(2); // one for recreate and another for game over event
   });
 
   test("should create a new empty game board", () => {
@@ -227,27 +219,26 @@ describe("Game Model", () => {
         model.getCols(),
         model.getEmptyDisc()
       );
-      jest
-        .spyOn(model.recreateBoardEvent, "notify")
-        .mockImplementation(() => {});
+      jest.spyOn(model, "notifyObservers").mockImplementation(() => {});
 
       model.setBoard(board);
-      expect(model.recreateBoardEvent.notify).toHaveBeenCalled();
+      expect(model.notifyObservers).toHaveBeenCalled();
     });
   });
 
   describe("FindGameResult Function", () => {
     test("should call a helper function to check if the board is fully occupied and notify the view", () => {
       jest.spyOn(model, "isFull").mockImplementation(() => true);
-      jest.spyOn(model.gameOverEvent, "notify").mockImplementation(() => {});
+      jest.spyOn(model, "notifyObservers").mockImplementation(() => {});
       model.findGameResult(null, null, null, null);
       expect(model.isFull).toHaveBeenCalled();
-      expect(model.gameOverEvent.notify).toHaveBeenCalledWith(RESULT.DRAW);
+      expect(model.notifyObservers).toHaveBeenCalledWith(RESULT.DRAW);
     });
 
     test("should call a helper function to check if a player wins and notify the view ", () => {
       const player = new PlayerModel(COLOR.RED, null, PLAYER_ID.R);
       jest.spyOn(model, "isFull").mockImplementation(() => false);
+      jest.spyOn(model, "notifyObservers").mockImplementation(() => {});
       jest.spyOn(model, "connectFour").mockImplementation(() => true);
       model.findGameResult(null, null, null, player);
       expect(model.connectFour).toHaveBeenCalledWith(
@@ -256,7 +247,7 @@ describe("Game Model", () => {
         null,
         player.id
       );
-      expect(model.gameOverEvent.notify).toHaveBeenCalledWith(RESULT.RED_WIN);
+      expect(model.notifyObservers).toHaveBeenCalledWith(RESULT.RED_WIN);
     });
   });
 
