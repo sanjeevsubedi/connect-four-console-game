@@ -81,7 +81,7 @@ class GameController extends BaseController {
     this.model.setBoard(board);
 
     // check if the game is draw or is won by any of the players
-    const outcome = this.model.findGameResult(board, r, col - 1, currentPlayer);
+    const outcome = this.model.findGameResult(board, currentPlayer);
 
     if (outcome) {
       this.appState.setGameResult(outcome);

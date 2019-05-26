@@ -161,8 +161,6 @@ describe("Game Controller", () => {
       controller.dropDisc(columnToDrop);
       expect(model.findGameResult).toHaveBeenCalledWith(
         board,
-        3,
-        columnToDrop - 1,
         currentPlayer
       );
     });
@@ -190,8 +188,6 @@ describe("Game Controller", () => {
       controller.dropDisc(columnToDrop);
       expect(model.findGameResult).toHaveBeenCalledWith(
         board,
-        3,
-        columnToDrop - 1,
         currentPlayer
       );
     });

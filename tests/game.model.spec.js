@@ -63,16 +63,9 @@ describe("Game Model", () => {
       board[2][6] = PLAYER_ID.R;
       board[3][6] = PLAYER_ID.R;
 
-      const winningRow = 3;
-      const winningCol = 6;
       const player = new PlayerModel(COLOR.RED, PLAYER_TYPE.HUMAN, PLAYER_ID.R);
 
-      const result = model.connectFour(
-        board,
-        winningRow,
-        winningCol,
-        player.id
-      );
+      const result = model.connectFour(board, player.id);
       expect(result).toBeTruthy();
     });
 
@@ -88,16 +81,9 @@ describe("Game Model", () => {
       board[0][2] = PLAYER_ID.R;
       board[0][3] = PLAYER_ID.R;
 
-      const winningRow = 0;
-      const winningCol = 3;
       const player = new PlayerModel(COLOR.RED, PLAYER_TYPE.HUMAN, PLAYER_ID.R);
 
-      const result = model.connectFour(
-        board,
-        winningRow,
-        winningCol,
-        player.id
-      );
+      const result = model.connectFour(board, player.id);
       expect(result).toBeTruthy();
     });
 
@@ -148,16 +134,9 @@ describe("Game Model", () => {
       // board[4][5] = PLAYER_ID.R;
       // board[5][6] = PLAYER_ID.R;
 
-      const winningRow = 3;
-      const winningCol = 6;
       const player = new PlayerModel(COLOR.RED, PLAYER_TYPE.HUMAN, PLAYER_ID.R);
 
-      const result = model.connectFour(
-        board,
-        winningRow,
-        winningCol,
-        player.id
-      );
+      const result = model.connectFour(board, player.id);
       expect(result).toBeTruthy();
     });
 
@@ -179,16 +158,9 @@ describe("Game Model", () => {
       // board[4][1] = PLAYER_ID.R;
       // board[5][0] = PLAYER_ID.R;
 
-      const winningRow = 3;
-      const winningCol = 6;
       const player = new PlayerModel(COLOR.RED, PLAYER_TYPE.HUMAN, PLAYER_ID.R);
 
-      const result = model.connectFour(
-        board,
-        winningRow,
-        winningCol,
-        player.id
-      );
+      const result = model.connectFour(board, player.id);
       expect(result).toBeTruthy();
     });
   });
@@ -230,7 +202,7 @@ describe("Game Model", () => {
     test("should call a helper function to check if the board is fully occupied and notify the view", () => {
       jest.spyOn(model, "isFull").mockImplementation(() => true);
       jest.spyOn(model, "notifyObservers").mockImplementation(() => {});
-      model.findGameResult(null, null, null, null);
+      model.findGameResult(null, null);
       expect(model.isFull).toHaveBeenCalled();
       expect(model.notifyObservers).toHaveBeenCalledWith(RESULT.DRAW);
     });
@@ -240,13 +212,8 @@ describe("Game Model", () => {
       jest.spyOn(model, "isFull").mockImplementation(() => false);
       jest.spyOn(model, "notifyObservers").mockImplementation(() => {});
       jest.spyOn(model, "connectFour").mockImplementation(() => true);
-      model.findGameResult(null, null, null, player);
-      expect(model.connectFour).toHaveBeenCalledWith(
-        null,
-        null,
-        null,
-        player.id
-      );
+      model.findGameResult(null, player);
+      expect(model.connectFour).toHaveBeenCalledWith(null, player.id);
       expect(model.notifyObservers).toHaveBeenCalledWith(RESULT.RED_WIN);
     });
   });
