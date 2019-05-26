@@ -11,7 +11,7 @@ import MenuController from "./controllers/menu.controller";
 (function() {
   const appState = new AppState();
 
-  // prepare dependencies
+  // prepare dependencies (object composition)
   // lib such as https://github.com/gedbac/di4js could be used to resolve dependencies
   const menuView = new MenuView();
   const menu = new MenuController(menuView, null, appState);
