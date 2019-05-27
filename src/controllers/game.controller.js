@@ -1,4 +1,4 @@
-import BaseController from "./base.controller";
+import BaseController from "../core/base.controller";
 import { PLAYER_TYPE, STRINGS, COLUMN } from "../constants/app.constant";
 import getReadlineInterface from "../utils/readline-interface";
 
@@ -9,9 +9,6 @@ class GameController extends BaseController {
     this.model = model;
     this.appState = appState;
     this.aIModel = aIModel;
-
-    /** listeners */
-    this.view.dropDiscEvent.attach(this.dropDisc.bind(this));
   }
 
   load() {
@@ -84,7 +81,7 @@ class GameController extends BaseController {
     this.model.setBoard(board);
 
     // check if the game is draw or is won by any of the players
-    const outcome = this.model.findGameResult(board, r, col - 1, currentPlayer);
+    const outcome = this.model.findGameResult(board, currentPlayer);
 
     if (outcome) {
       this.appState.setGameResult(outcome);

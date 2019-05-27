@@ -1,8 +1,11 @@
 import print from "../utils/print";
 import { STRINGS } from "../constants/app.constant";
+import BaseView from "../core/base.view";
 
-class MenuView {
-  constructor() {}
+class MenuView extends BaseView {
+  constructor() {
+    super();
+  }
 
   render() {
     print("========================");

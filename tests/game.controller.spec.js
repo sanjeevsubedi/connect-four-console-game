@@ -11,12 +11,10 @@ import {
   PLAYER_ID,
   RESULT
 } from "../src/constants/app.constant";
-import BaseEvent from "../src/events/base.event";
 jest.mock("../src/models/game.model");
 jest.mock("../src/models/AI.model");
 jest.mock("../src/views/game.view");
 jest.mock("../src/store/app.state");
-jest.mock("../src/events/base.event");
 
 describe("Game Controller", () => {
   let controller;
@@ -28,7 +26,6 @@ describe("Game Controller", () => {
   beforeEach(() => {
     model = new GameModel();
     view = new GameView(model);
-    view.dropDiscEvent = new BaseEvent();
     appState = new AppState();
     aIModel = new AIModel(model);
     controller = new GameController(view, model, appState, aIModel);
@@ -164,8 +161,6 @@ describe("Game Controller", () => {
       controller.dropDisc(columnToDrop);
       expect(model.findGameResult).toHaveBeenCalledWith(
         board,
-        3,
-        columnToDrop - 1,
         currentPlayer
       );
     });
@@ -193,8 +188,6 @@ describe("Game Controller", () => {
       controller.dropDisc(columnToDrop);
       expect(model.findGameResult).toHaveBeenCalledWith(
         board,
-        3,
-        columnToDrop - 1,
         currentPlayer
       );
     });
